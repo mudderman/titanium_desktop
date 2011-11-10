@@ -109,6 +109,9 @@ UserWindow::UserWindow(AutoPtr<WindowConfig> config, AutoPtr<UserWindow> parent)
     this->SetMethod("setTopMost", &UserWindow::_SetTopMost);
     this->SetMethod("isTopMost", &UserWindow::_IsTopMost);
     this->SetMethod("createWindow", &UserWindow::_CreateWindow);
+	
+    this->SetMethod("displayAlert",  &UserWindow::_DisplayAlert);
+	
     this->SetMethod("openFileChooserDialog", &UserWindow::_OpenFileChooserDialog);
     this->SetMethod("openFolderChooserDialog", &UserWindow::_OpenFolderChooserDialog);
     this->SetMethod("openSaveAsDialog", &UserWindow::_OpenSaveAsDialog);
@@ -1292,6 +1295,32 @@ void UserWindow::ReadChooserDialogObject(
     }
     typesDescription = o->GetString("typesDescription", defaultName);
 
+}
+
+void UserWindow::_DisplayAlert(const kroll::ValueList& args, kroll::KValueRef result)
+{
+    std::string title;
+    std::string message;
+    std::vector<std::string> buttonLabels;
+    
+    KObjectRef props = args.at(0)->ToObject();
+    title = props->GetString("title", title);
+    message = props->GetString("message", message);
+    
+    KListRef labels = new StaticBoundList();
+    labels = props->GetList("buttons", labels);
+    for (size_t i = 0; i < labels->Size(); i++) {
+        if (labels->At(i)->IsString()) {
+            buttonLabels.push_back(labels->At(i)->ToString());
+        }
+    }
+
+    result->SetInt(this->_DisplayAlert(title, message, buttonLabels));
+}
+	
+int UserWindow::_DisplayAlert(std::string& title, std::string& message,
+							  std::vector<std::string>& buttonLabels) {
+	return this->DisplayAlert(title, message, buttonLabels);
 }
 
 void UserWindow::_OpenFileChooserDialog(const ValueList& args, KValueRef result)

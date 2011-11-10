@@ -742,6 +742,28 @@ void UserWindowMac::SetTopMost(bool topmost)
     }
 }
 
+int UserWindowMac::DisplayAlert(string& title, string& message, vector<string>& buttonLabels) {
+	
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    for (size_t t = 0; t < buttonLabels.size(); t++) {
+        const char *s = buttonLabels.at(t).c_str();
+        [alert addButtonWithTitle:[NSString stringWithUTF8String:s]];
+    }
+    
+    [alert setMessageText:[NSString stringWithUTF8String:title.c_str()]];
+    [alert setInformativeText:[NSString stringWithUTF8String:message.c_str()]];
+    
+    [alert setAlertStyle:NSWarningAlertStyle];
+    
+	// TODO: Figure out how to do sheets
+    //[alert beginSheetModalForWindow:nativeWindow modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    
+    this->Show();
+	
+	// Don't return 1000, 1001, etc. "convert" to 0, 1, etc.
+	return ([alert runModal] - 1000);
+}
+
 void UserWindowMac::OpenChooserDialog(bool files, KMethodRef callback,
     bool multiple, string& title, string& path, string& defaultName,
     vector<string>& types, string& typesDescription)

@@ -137,6 +137,11 @@ public:
     void _GetParent(const kroll::ValueList&, kroll::KValueRef);
     void _GetChildren(const kroll::ValueList&, kroll::KValueRef);
     void _CreateWindow(const kroll::ValueList&, kroll::KValueRef);
+	
+	void _DisplayAlert(const kroll::ValueList&, kroll::KValueRef);
+    int _DisplayAlert(std::string& title, std::string& message,
+					  std::vector<std::string>& buttonLabels);
+	
     void _OpenFileChooserDialog(const ValueList& args, KValueRef result);
     void _OpenFolderChooserDialog(const ValueList& args, KValueRef result);
     void _OpenSaveAsDialog(const ValueList& args, KValueRef result);
@@ -146,6 +151,10 @@ public:
     void _SetContents(const ValueList& args, KValueRef result);
     void SetContents(const std::string& content, const std::string& baseURL);
     void _SetPluginsEnabled(const ValueList& args, KValueRef result);
+	
+    virtual int DisplayAlert(std::string& title, std::string& message,
+        std::vector<std::string>& buttonLabels) = 0;
+	
     virtual void OpenFileChooserDialog(KMethodRef callback, bool multiple,
         std::string& title, std::string& path, std::string& defaultName,
         std::vector<std::string>& types, std::string& typesDescription) = 0;

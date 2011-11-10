@@ -34,6 +34,9 @@ public:
     UserWindowMac(AutoPtr<WindowConfig> config, AutoPtr<UserWindow>& parent);
     ~UserWindowMac();
 
+    int DisplayAlert(std::string& title, std::string& message, 
+        std::vector<std::string>& buttonLabels);
+	
     void OpenChooserDialog(bool files, KMethodRef callback, bool multiple,
         std::string& title, std::string& path, std::string& defaultName,
         std::vector<std::string>& types, std::string& typesDescription);
