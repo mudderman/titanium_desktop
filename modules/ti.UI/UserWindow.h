@@ -140,7 +140,7 @@ public:
 	
 	void _DisplayAlert(const kroll::ValueList&, kroll::KValueRef);
     int _DisplayAlert(std::string& title, std::string& message,
-					  std::vector<std::string>& buttonLabels);
+					  std::vector<std::string>& buttonLabels, bool displayAsSheet);
 	
     void _OpenFileChooserDialog(const ValueList& args, KValueRef result);
     void _OpenFolderChooserDialog(const ValueList& args, KValueRef result);
@@ -153,7 +153,7 @@ public:
     void _SetPluginsEnabled(const ValueList& args, KValueRef result);
 	
     virtual int DisplayAlert(std::string& title, std::string& message,
-        std::vector<std::string>& buttonLabels) = 0;
+        std::vector<std::string>& buttonLabels, bool displayAsSheet) = 0;
 	
     virtual void OpenFileChooserDialog(KMethodRef callback, bool multiple,
         std::string& title, std::string& path, std::string& defaultName,

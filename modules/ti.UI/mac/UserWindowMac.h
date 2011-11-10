@@ -35,7 +35,7 @@ public:
     ~UserWindowMac();
 
     int DisplayAlert(std::string& title, std::string& message, 
-        std::vector<std::string>& buttonLabels);
+        std::vector<std::string>& buttonLabels, bool displayAsSheet);
 	
     void OpenChooserDialog(bool files, KMethodRef callback, bool multiple,
         std::string& title, std::string& path, std::string& defaultName,
