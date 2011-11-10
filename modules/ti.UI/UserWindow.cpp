@@ -1299,7 +1299,7 @@ void UserWindow::ReadChooserDialogObject(
 
 void UserWindow::_DisplayAlert(const kroll::ValueList& args, kroll::KValueRef result)
 {	
-    args.VerifyException("openFileChooserDialog", "o");
+    args.VerifyException("displayDialog", "o");
 	
     std::string title;
     std::string message;
@@ -1323,12 +1323,7 @@ void UserWindow::_DisplayAlert(const kroll::ValueList& args, kroll::KValueRef re
 		displayAsSheet = false;
 	}
 
-    result->SetInt(this->_DisplayAlert(title, message, buttonLabels, displayAsSheet));
-}
-	
-int UserWindow::_DisplayAlert(std::string& title, std::string& message,
-							  std::vector<std::string>& buttonLabels, bool displayAsSheet) {
-	return this->DisplayAlert(title, message, buttonLabels, displayAsSheet);
+    result->SetInt(this->DisplayAlert(title, message, buttonLabels, displayAsSheet));
 }
 
 void UserWindow::_OpenFileChooserDialog(const ValueList& args, KValueRef result)

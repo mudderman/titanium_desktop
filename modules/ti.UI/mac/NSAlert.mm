@@ -3,6 +3,7 @@
 //
 //  Created by Philipp Mayerhofer on 6/10/11.
 //  Copyright 2011 Incredible Bee Ltd. Released under the New BSD License.
+//  https://github.com/incbee/NSAlert-SynchronousSheet
 //
 // Slightly modified by me (Tomas Persson) Nov 10, 2011
 //

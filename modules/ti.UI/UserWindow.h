@@ -139,8 +139,6 @@ public:
     void _CreateWindow(const kroll::ValueList&, kroll::KValueRef);
 	
 	void _DisplayAlert(const kroll::ValueList&, kroll::KValueRef);
-    int _DisplayAlert(std::string& title, std::string& message,
-					  std::vector<std::string>& buttonLabels, bool displayAsSheet);
 	
     void _OpenFileChooserDialog(const ValueList& args, KValueRef result);
     void _OpenFolderChooserDialog(const ValueList& args, KValueRef result);
