@@ -41,6 +41,8 @@ public:
     void DestroyNative(NSMenuItem* realization);
     void UpdateNativeMenuItems();
     virtual void HandleClickEvent(KObjectRef source);
+	
+	void SetKeyImpl(std::string key);
 
 private:
     static void SetNSMenuItemTitle(NSMenuItem* item, std::string& title);

@@ -194,9 +194,10 @@ void MenuMac::AddChildrenToNativeMenu(NSMenu* nativeMenu, bool registerNative, b
         AutoPtr<MenuItemMac> osxItem = item.cast<MenuItemMac>();
         NSMenuItem* nativeItem = osxItem->CreateNative(registerNative);
 
-        int rearOffset = mainMenu ?  MAINMENU_REAR_OFFSET : 0;
-        int index = [nativeMenu numberOfItems] - rearOffset;
-        [nativeMenu insertItem:nativeItem atIndex:index];
+        //int rearOffset = mainMenu ?  MAINMENU_REAR_OFFSET : 0;
+        //int index = [nativeMenu numberOfItems] - rearOffset;
+        //[nativeMenu insertItem:nativeItem atIndex:index];
+		[nativeMenu addItem:nativeItem];
     }
 }
 
@@ -268,7 +269,14 @@ NSMenu* MenuMac::GetWindowMenu(NSMenu* menu)
 {
     if (IsNativeMenuAMainMenu(menu))
     {
-        return [[menu itemAtIndex:([menu numberOfItems] - 2)] submenu];
+		NSMenuItem *windowMenuItem = [menu itemWithTitle:@"Window"];
+		if (windowMenuItem != nil) {
+			return [windowMenuItem submenu];
+			//return [[menu itemAtIndex:([menu numberOfItems] - 2)] submenu];
+			
+		} else {
+			return nil;
+		}
     }
     else
     {
@@ -362,18 +370,21 @@ void MenuMac::FixWindowMenu(NSMenu* menu)
 void MenuMac::SetupInspectorItem(NSMenu* menu)
 {
     NSMenu* windowMenu = MenuMac::GetWindowMenu(menu);
-    NSMenuItem* showInspector = [windowMenu
-        itemWithTitle:NSLocalizedString(@"Show Inspector", @"")];
-    NSMenuItem* showInspectorSeparator = [windowMenu
-        itemWithTitle:NSLocalizedString(@"Show Inspector Separator", @"")];
-
-    if (!Host::GetInstance()->DebugModeEnabled())
-    {
-        if (showInspector != nil)
-            [windowMenu removeItem:showInspector];
-        if (showInspectorSeparator != nil)
-            [windowMenu removeItem:showInspectorSeparator];
-    }
+	
+	if (windowMenu != nil) {
+		NSMenuItem* showInspector = [windowMenu
+									 itemWithTitle:NSLocalizedString(@"Show Inspector", @"")];
+		NSMenuItem* showInspectorSeparator = [windowMenu
+											  itemWithTitle:NSLocalizedString(@"Show Inspector Separator", @"")];
+		
+		if (!Host::GetInstance()->DebugModeEnabled())
+		{
+			if (showInspector != nil)
+				[windowMenu removeItem:showInspector];
+			if (showInspectorSeparator != nil)
+				[windowMenu removeItem:showInspectorSeparator];
+		}
+	}
 }
 
 /*static*/

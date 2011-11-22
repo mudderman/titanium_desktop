@@ -115,6 +115,16 @@ void UIMac::SetMenu(AutoPtr<Menu> menu)
     }
     AutoPtr<MenuMac> osxmenu = menu.cast<MenuMac>();
     this->menu = osxmenu;
+	
+	// Clear the default menu
+	if (menu && menu->GetChildCount() > 0) {
+		if ([this->defaultMenu numberOfItems] > 1) {
+			for (int i = [this->defaultMenu numberOfItems] - 1; i > 0; i--) {
+				[this->defaultMenu removeItemAtIndex:i];
+			}
+		}
+	}
+	
     SetupMainMenu();
 }
 

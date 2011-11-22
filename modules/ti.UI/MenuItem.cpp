@@ -36,6 +36,7 @@ MenuItem::MenuItem(MenuItemType type)
     , submenu(0)
     , state(false)
     , autoCheck(true)
+	, key("")
 {
     this->SetMethod("isSeparator", &MenuItem::_IsSeparator);
     this->SetMethod("isCheck", &MenuItem::_IsCheck);
@@ -55,6 +56,8 @@ MenuItem::MenuItem(MenuItemType type)
 
         // This is only for testing and should remain undocumented
         this->SetMethod("click", &MenuItem::_Click);
+		
+		this->SetMethod("setKey", &MenuItem::_SetKey);
     }
 
     if (this->type == NORMAL)
@@ -304,6 +307,14 @@ bool MenuItem::ContainsSubmenu(Menu* submenu)
     return !this->submenu.isNull() &&
         (this->submenu.get() == submenu ||
         this->submenu->ContainsSubmenu(submenu));
+}
+	
+void MenuItem::_SetKey(const ValueList& args, KValueRef result)
+{
+	args.VerifyException("setKey", "s");
+	string key = args.GetString(0, "");
+	this->key = key;
+	this->SetKeyImpl(key);
 }
 
 } // namespace Titanium

@@ -54,6 +54,8 @@ public:
     void _AddItem(const ValueList& args, KValueRef result);
     void _AddSeparatorItem(const ValueList& args, KValueRef result);
     void _AddCheckItem(const ValueList& args, KValueRef result);
+	
+	void _SetKey(const ValueList& args, KValueRef result);
 
     void SetLabel(string& label);
     std::string& GetLabel();
@@ -74,6 +76,8 @@ public:
     virtual void SetStateImpl(bool newState) = 0;
     virtual void SetSubmenuImpl(AutoPtr<Menu> newSubmenu) = 0;
     virtual void SetEnabledImpl(bool enabled) = 0;
+	
+	virtual void SetKeyImpl(std::string key) = 0;
 
 protected:
     MenuItemType type;
@@ -86,6 +90,7 @@ protected:
     std::vector<KMethodRef> eventListeners;
     bool state;
     bool autoCheck;
+	std::string key;
 };
 
 } // namespace Titanium

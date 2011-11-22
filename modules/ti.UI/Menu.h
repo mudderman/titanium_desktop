@@ -51,6 +51,8 @@ public:
     virtual void InsertItemAtImpl(AutoPtr<MenuItem> item, unsigned int index) = 0;
     virtual void RemoveItemAtImpl(unsigned int index) = 0;
     virtual void ClearImpl() = 0;
+	
+	int GetChildCount() { return children.size(); }
 
 protected:
     std::vector<AutoPtr<MenuItem> > children;

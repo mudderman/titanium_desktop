@@ -149,7 +149,50 @@ NSMenuItem* MenuItemMac::CreateNative(bool registerNative)
         SetNSMenuItemState(item, this->state);
         SetNSMenuItemEnabled(item, this->enabled);
         SetNSMenuItemSubmenu(item, this->submenu, registerNative);
-
+		
+		// Parse the key
+		NSInteger modifierMask = -1;
+		NSString *keyEquivalent = @"";
+		NSString *key = [NSString stringWithUTF8String:this->key.c_str()];
+		if (![key isEqualToString:@""]) {
+			NSArray *bits = [key componentsSeparatedByString:@" "];
+			for (NSString *bit in bits) {
+				
+				if ([bit isEqualToString:@"alt"]) {
+					if (modifierMask == -1) {
+						modifierMask = NSAlternateKeyMask;
+					} else {
+						modifierMask |= NSAlternateKeyMask;
+					}
+					
+				} else if ([bit isEqualToString:@"ctrl"] || [bit isEqualToString:@"control"]) {
+					if (modifierMask == -1) {
+						modifierMask = NSControlKeyMask;
+					} else {
+						modifierMask |= NSControlKeyMask;
+					}
+					
+				} else if ([bit isEqualToString:@"cmd"] || [bit isEqualToString:@"command"]) {
+					if (modifierMask == -1) {
+						modifierMask = NSCommandKeyMask;
+					} else {
+						modifierMask |= NSCommandKeyMask;
+					}
+						
+				} else {
+					keyEquivalent = bit;
+				}
+			}
+			
+			if (![keyEquivalent isEqualToString:@""]) {
+				[item setKeyEquivalent:keyEquivalent];
+				if (modifierMask != -1) {
+					[item setKeyEquivalentModifierMask:modifierMask];
+				}
+			}
+				
+		}
+		
         if (registerNative)
         {
             this->nativeItems.push_back(item);
@@ -212,6 +255,13 @@ void MenuItemMac::UpdateNativeMenuItems()
 void MenuItemMac::HandleClickEvent(KObjectRef source)
 {
     MenuItem::HandleClickEvent(source);
+}
+	
+void MenuItemMac::SetKeyImpl(std::string key)
+{
+	if (this->type == SEPARATOR)
+		return;
+	this->UpdateNativeMenuItems();
 }
 
 } // namespace Titanium
